@@ -1,0 +1,17 @@
+/* Stile per la stampa del calendario */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #cal, #cal * {
+        visibility: visible;
+    }
+    #cal {
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        top: 100px;
+    }
+}
