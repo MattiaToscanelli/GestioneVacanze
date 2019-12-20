@@ -54,7 +54,7 @@ class CambiaPassword
                 EmptySession::email();
                 header("Location: ".URL."passwordCambiata");
             }else{
-                header("Location: ".URL."cambiaPassword");
+                header("Location: ".URL."errore");
             }
         }else{
             header("Location: " . URL . "errore");

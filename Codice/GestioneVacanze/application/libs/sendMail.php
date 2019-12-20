@@ -21,13 +21,23 @@ class SendMail{
     private $mail;
 
     /**
+     * @var string La email per inviare le mail.
+     */
+    private $username = EMAIL_EMAIL;
+
+    /**
+     * @var string La password per accedere alla mail.
+     */
+    private $password = PASSWORD_MAIL;
+
+    /**
      * Metodo costruttore con 2 parametri.
      * Perpara il tutto per il login.
      * @param $username L'username per l'accesso alla email.
      * @param $password La password per l'accesso alla email.
      * @throws Exception Eccezione tirata se non riesce a collegarsi al client di posta elettronica.
      */
-    function __construct($username,$password)
+    function __construct()
     {
         $this->mail = new PHPMailer(true);
         $this->mail->isSMTP();
@@ -36,10 +46,10 @@ class SendMail{
         $this->mail->Port = 587;
         $this->mail->SMTPSecure = 'tls';
         $this->mail->SMTPAuth = true;
-        $this->mail->Username = $username;
-        $this->mail->Password = $password;
+        $this->mail->Username = $this->username;
+        $this->mail->Password = $this->password;
         $this->mail->CharSet = 'UTF-8';
-        $this->mail->setFrom($username, "GestioneVacanze");
+        $this->mail->setFrom($this->username, "GestioneVacanze");
     }
 
     /**

@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
         plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
         header: {
             left: 'prev,next',
-            center: 'title',
             right: 'timeGridWeek,listMonth'
         },
         events: (URL+'Calendario/load'),

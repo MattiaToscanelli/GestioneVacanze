@@ -38,12 +38,16 @@ class CambiaPasswordModel{
      * @return bool True se l'identificazione dell'utente è andato a buone fine, False se non è andato a buon fine.
      */
     public function confirm($hash,$email){
-        $selectCheck = "select * from utente where email='$email' AND hash_mail='$hash'";
-        $result = $this->util->fetchAndExecute($selectCheck);
-        if($result != null) {
-            $updateUsers = "UPDATE utente SET hash_mail='0', verifica_email=1 WHERE email='$email'";
-            $this->util->fetchAndExecute($updateUsers);
-            return true;
+        if($hash != 0) {
+            $selectCheck = "select * from utente where email='$email' AND hash_mail='$hash'";
+            $result = $this->util->fetchAndExecute($selectCheck);
+            if ($result != null) {
+                $updateUsers = "UPDATE utente SET hash_mail='0', verifica_email=1 WHERE email='$email'";
+                $this->util->fetchAndExecute($updateUsers);
+                return true;
+            } else {
+                return false;
+            }
         }else{
             return false;
         }

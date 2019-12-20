@@ -26,28 +26,22 @@ class Login{
             $password = $_POST[POST_PASSWORD];
             require_once 'application/models/loginModel.php';
             $loginModel = new LoginModel();
-            $result = $loginModel->getUser($email);
-            if (count($result) > 0) {
-                if (password_verify($password, $result[0][DB_USER_PASSWORD])) {
-                    if ($result[0][DB_USER_VERIFY] == 1) {
-                        $_SESSION[SESSION_TYPE] = $result[0][DB_USER_TYPE];
-                        $_SESSION[SESSION_NAME] = $result[0][DB_USER_NAME];
-                        $_SESSION[SESSION_SURNAME] = $result[0][DB_USER_SURNAME];
-                        $_SESSION[SESSION_EMAIL] = $email;
-                        header("Location:" . URL . "calendario");
-                    } else {
-                        header("Location:" . URL . "aspetta");
-                    }
-                } else {
-                    $_SESSION[SESSION_ERR] = "Email o password non corretti!";
-                    header("Location:" . URL . "login");
-                }
-            } else {
+            $result = $loginModel->access($email,$password);
+            if ($result == 0) {
                 $_SESSION[SESSION_ERR] = "Email o password non corretti!";
                 header("Location:" . URL . "login");
+            } else if($result == 1){
+                $result = $loginModel->getUser($email);
+                $_SESSION[SESSION_TYPE] = $result[0][DB_USER_TYPE];
+                $_SESSION[SESSION_NAME] = $result[0][DB_USER_NAME];
+                $_SESSION[SESSION_SURNAME] = $result[0][DB_USER_SURNAME];
+                $_SESSION[SESSION_EMAIL] = $email;
+                header("Location:" . URL . "calendario");
+            } else {
+                header("Location:" . URL . "aspetta");
             }
         }else{
-            header("Location:" . URL . "errore");
+           header("Location:" . URL . "errore");
         }
     }
 

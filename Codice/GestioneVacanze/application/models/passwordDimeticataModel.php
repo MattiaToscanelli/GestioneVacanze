@@ -46,7 +46,7 @@ class PasswordDimeticataModel{
                      Recentemente è stata richiesta la procedura di modifica password!<br><br>
                      <a href='".URL."cambiaPassword/resetPassword/$this->email/$hash'> Per modificare la tua password clicca questo link!</a>";
             try {
-                $s = new SendMail("gestione.vacanze2019@gmail.com","Progetto1");
+                $s = new SendMail();
                 $s->mailSend($this->email, "Modifica la password", $body);
                 $this->util->fetchAndExecute($updateUsers);
             } catch (Exception $e){

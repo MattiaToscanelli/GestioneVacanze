@@ -14,7 +14,7 @@ class Calendario{
         }
         require 'application/models/calendarioModel.php';
         $c = new CalendarioModel();
-        $_SESSION[SESSION_HOURS_WORK] = $c->getHours($_SESSION[SESSION_EMAIL]);
+        $_SESSION[SESSION_HOURS_WORK] = $c->getHours($_SESSION[SESSION_EMAIL])==0?"<bold style='color:red'>".$c->getHours($_SESSION[SESSION_EMAIL])."</bold>":$c->getHours($_SESSION[SESSION_EMAIL]);
         require 'application/views/_template/headerCalendar.php';
         require 'application/views/calendario/calendario.php';
         require 'application/views/_template/footerCalendar.php';

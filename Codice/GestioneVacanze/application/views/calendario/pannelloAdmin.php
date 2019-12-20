@@ -129,6 +129,9 @@
                     <h3 class="title p-t-70">Gestione Calendario:</h3>
                 </div>
                 <div class="row row-space">
+                    <h2 id="title_cal">
+                        <span id="title_calendar"></span>
+                    </h2>
                     <div id='calendar'></div>
                 </div>
                 <div class="row row-space m-t-20">

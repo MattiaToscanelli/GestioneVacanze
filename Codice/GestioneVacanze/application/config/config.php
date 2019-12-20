@@ -28,6 +28,11 @@ define('DB_USER', 'root');
 define('DB_PASS', 'root');
 define('DB_NAME', 'gestione_vacanze');
 
+/**
+ * Costanti di accesso per web mail.
+ */
+define('EMAIL_EMAIL', 'gestione.vacanze2019@gmail.com');
+define('PASSWORD_MAIL', 'Progetto1');
 
 /**
  * Costanti per Le variabili di sessione.
@@ -83,7 +88,7 @@ define('DB_LESSON_NAME', 'nome');
 define('DB_LESSON_START', 'ora_inizio');
 define('DB_LESSON_END', 'ora_fine');
 define('DB_LESSON_DAY', 'giorno');
-
+define('DB_ASSIGN_LESSON_ID', 'id_lezione');
 
 /**
  * Importo la classe per i metodi utili.

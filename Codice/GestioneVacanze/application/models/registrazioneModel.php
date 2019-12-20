@@ -92,10 +92,10 @@ class RegistrazioneModel{
             $hash = md5(rand(1000,5000));
             require 'application/libs/sendMail.php';
             $body = "Benvenuto/a $this->name $this->surname,<br>
-                     la rigranzio per essersi iscritto al sito web per la gestione delle lezioni durante le vacanze scolastiche!<br><br>
-                     <a href='".URL."conferma/confirm/$hash/$this->email'> Per verificare la sua mail clicchi questo link!</a>";
+                     ti rigranzio per esserti iscritto al sito web per la gestione delle lezioni durante le vacanze scolastiche!<br><br>
+                     <a href='".URL."conferma/confirm/$hash/$this->email'> Per verificare la tua mail clicca questo link!</a>";
             try{
-                $s = new SendMail("gestione.vacanze2019@gmail.com","Progetto1");
+                $s = new SendMail();
                 $s->mailSend($this->email,"Verifica la tua email",$body);
                 $password = password_hash($this->password1, PASSWORD_DEFAULT);
                 $insertUser = "INSERT INTO utente (email,nome,cognome,numero_telefono,ore_lavoro,tipo,verificato,password,verifica_email,hash_mail) 

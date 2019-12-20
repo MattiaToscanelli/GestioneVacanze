@@ -967,3 +967,7 @@ rgba(0, 0, 0, 0)
 .pointer {
   cursor: pointer;
 }
+
+#title_cal{
+  margin: auto;
+}

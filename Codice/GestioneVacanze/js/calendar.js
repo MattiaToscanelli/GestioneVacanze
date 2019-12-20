@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         header: {
             left: 'prev,next',
-            center: 'title',
             right: 'timeGridWeek,listMonth,personal'
         },
         editable: true,
@@ -46,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
         select: function(selectionInfo) {
             var title = prompt("Inserisci un nome alla lezione");
             if(title) {
-                if(v.checkName(title)){
+                if(v.checkTitle(title)){
                     var start = moment(selectionInfo.start).format("Y-MM-DD HH:mm:ss");
                     var end = moment(selectionInfo.end).format("Y-MM-DD HH:mm:ss");
                     if(v.checkEvent(start, end) != null) {
@@ -57,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             success: function (response) {
                                 if(response.includes(",")){
                                     $.notify("Lezione Aggiunta", "success");
-                                    document.getElementById("ore_lavoro").innerHTML = "Ore di lezione rimanenti: " + response.split(',')[1];
+                                    document.getElementById("ore_lavoro").innerHTML = "Ore di lezione rimanenti: " + (response.split(',')[1]==0?"<bold style='color:red'>"+response.split(',')[1]+"</bold>":response.split(',')[1]);
                                 }else if(response == "2"){
                                     $.notify("Giorno non disponibile per lezioni (Solo in spazi verdi)", 'error');
                                 }else if(response == "3"){
@@ -92,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     success: function (response) {
                         if(response.includes(",")){
                             $.notify("Lezione Aggiornata", "success");
-                            document.getElementById("ore_lavoro").innerHTML = "Ore di lezione rimanenti: " + response.split(',')[1];
+                            document.getElementById("ore_lavoro").innerHTML = "Ore di lezione rimanenti: " + (response.split(',')[1]==0?"<bold style='color:red'>"+response.split(',')[1]+"</bold>":response.split(',')[1]);
                         }else if(response == "2"){
                             $.notify("Non ci possono essere due lezioni nello stesso momento", 'error');
                         }else if(response == "3"){
@@ -153,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     success:function(response) {
                         if(response.includes(",")){
                             $.notify("Lezione Eliminata", "success");
-                            document.getElementById("ore_lavoro").innerHTML = "Ore di lezione rimanenti: " + response.split(',')[1];
+                            document.getElementById("ore_lavoro").innerHTML = "Ore di lezione rimanenti: " + (response.split(',')[1]==0?"<bold style='color:red'>"+response.split(',')[1]+"</bold>":response.split(',')[1]);;
                         }else if(response == "2") {
                             $.notify("Non puoi modificare attività di altri", 'error');
                         }

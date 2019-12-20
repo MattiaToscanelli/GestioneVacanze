@@ -24,8 +24,11 @@ class Conferma{
         if(($email != null) && ($hash != null)) {
             require_once 'application/models/confermaModel.php';
             $conferma_model = new ConfermaModel();
-            $conferma_model->confirm(Util::test_input($hash), Util::test_input($email));
-            header("Location: " . URL . "conferma");
+            if($conferma_model->confirm(Util::test_input($hash), Util::test_input($email))){
+                header("Location: " . URL . "conferma");
+            }else{
+                header("Location: " . URL . "errore");
+            }
         }else{
             header("Location: " . URL . "errore");
         }

@@ -98,7 +98,7 @@ class Validator
      * @return bool True se le ore inserite sono valide, False se le ore non sono valide.
      */
     function checkHours($val){
-        return $val > -1 && $val < 999;
+        return $val >= 0 && $val < 1000;
     }
 
     /**

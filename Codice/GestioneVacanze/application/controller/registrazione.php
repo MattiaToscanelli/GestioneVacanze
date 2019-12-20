@@ -21,6 +21,7 @@ class Registrazione
      */
     public function insert(){
         require_once 'application/models/registrazioneModel.php';
+
         $name = $surname = $number = $email = $password1 = $password2 = "";
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             $name = Util::test_input($_POST[POST_FIRST_NAME]);
@@ -30,8 +31,7 @@ class Registrazione
             $password1 = Util::test_input($_POST[POST_PASSWORD]);
             $password2 = Util::test_input($_POST[POST_RE_PASSWORD]);
             $rm = new RegistrazioneModel($name, $surname, $number, $email, $password1, $password2);
-            if($rm->checkAll()){
-                $rm->insertUser();
+            if($rm->insertUser()){
                 header("Location: ".URL."aspetta");
             }else{
                 header("Location: ".URL."errore");

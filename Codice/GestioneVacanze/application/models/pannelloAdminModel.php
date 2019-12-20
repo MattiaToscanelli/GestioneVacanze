@@ -75,7 +75,7 @@ class PannelloAdminModel{
      * Metodo per rimuovere un giorno lavorativo.
      * @param $day Il giorno da rimuovere.
      */
-    function removeDay($day, $userEmail){
+    function removeDay($day){
         $selectIdEvent = "SELECT id from lezione where giorno='$day'";
         $ids = $this->util->fetchAndExecute($selectIdEvent);
         foreach ($ids as $id){
@@ -98,6 +98,14 @@ class PannelloAdminModel{
      */
     function deleteUser($user, $userEmail){
         if($user != $userEmail){
+            $selectIdEvents = "SELECT id_lezione from assegna WHERE email='$user'";
+            $ids = $this->util->fetchAndExecute($selectIdEvents);
+            foreach ($ids as $id){
+                $query = "DELETE from assegna WHERE id_lezione=".$id[DB_ASSIGN_LESSON_ID];
+                $this->util->fetchAndExecute($query);
+                $query = "DELETE from lezione WHERE id=".$id[DB_ASSIGN_LESSON_ID];
+                $this->util->fetchAndExecute($query);
+            }
             $selectUsers = "DELETE FROM utente WHERE email='$user'";
             $this->util->fetchAndExecute($selectUsers);
             return true;
@@ -123,6 +131,7 @@ class PannelloAdminModel{
             }else{
                 $hours = $data[3];
             }
+            $hours = intval($hours);
             $verify = "";
             if($data[4] == "Verificato"){
                 $verify = 1;
@@ -170,6 +179,7 @@ class PannelloAdminModel{
      */
     function modifyHours($hours){
         if($this->validator->checkHours($hours)){
+            $hours = intval($hours);
             $updateUtente = "UPDATE utente SET ore_lavoro=$hours WHERE tipo='Docente'";
             $this->util->fetchAndExecute($updateUtente);
             return true;

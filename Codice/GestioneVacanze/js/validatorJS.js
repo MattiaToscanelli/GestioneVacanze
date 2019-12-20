@@ -14,6 +14,16 @@ class Validator {
     }
 
     /**
+     * Metodo per controllare un titolo.
+     * @param val Il nome da controllare.
+     * @returns {boolean} True se è valido, False se non è valido.
+     */
+    checkTitle(val) {
+        var regexName = /^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]{2}[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/;
+        return (regexName.test(val) && val.length <= 50);
+    }
+
+    /**
      * Metodo per controllare una email.
      * @param val La email da controllare.
      * @returns {boolean} True se è valida, False se non è valida.
@@ -56,8 +66,8 @@ class Validator {
      * @returns {boolean} True se sono valide, False se non sono valide.
      */
     checkHours(val) {
-        var regexNumber = /^[0-9]{1,3}$/;
-        return val > -1 && val < 999 && regexNumber.test(val);
+        var regexNumber = /^[0-9]/;
+        return val >= 0 && val < 1000 && regexNumber.test(val);
     }
 
     /**
@@ -130,7 +140,7 @@ class Validator {
         var diffTime = en.getTime() - st.getTime();
         var diffHour = diffTime / (1000 * 60 * 60);
         var today = new Date().setHours(0,0,0,0);
-        if(s == e && diffHour <= 4 && hStart >= 8 && (hEnd < 17 || (hEnd == 17 && en.getMinutes() == 0)) && today <= s){
+        if(s == e && diffHour <= 4 && diffHour >= 1 && hStart >= 8 && (hEnd < 17 || (hEnd == 17 && en.getMinutes() == 0)) && today <= s){
             return true;
         }else{
             return null;

@@ -15,6 +15,9 @@
                     </div>
                 <?php endif; ?>
                 <div id="cal" class="row row-space">
+                    <h2 id="title_cal">
+                        <span id="title_calendar"></span>
+                    </h2>
                     <div id='calendar'></div>
                 </div>
                 <div class="p-t-15 clearfix">
@@ -25,7 +28,7 @@
                     <h3 class="title">Gestione pagina:</h3>
                 </div>
                 <div class="row row-space">
-                    <span>Clicca il bottone rosso per accedere alla pagina di amministrazioen dove potrai gestire gli
+                    <span>Clicca il bottone rosso per accedere alla pagina di amministrazione dove potrai gestire gli
                     registrati al sito e aggiungere/modificare/rimovere giorni di lezione.</span>
                 </div>
                 <div class="p-t-15 clearfix">

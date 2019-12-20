@@ -41,7 +41,12 @@ class CalendarioModel{
                 'rendering' => 'background',
             );
         }
-        $query = "SELECT id, nome, ora_inizio, ora_fine, giorno, email FROM lezione l, assegna a WHERE l.id = a.id_lezione AND DATE(l.giorno) >= DATE(NOW()) ORDER BY l.id";
+        $query = "SELECT id, CONCAT(l.nome,' (',u.cognome, ')') as 'nome', ora_inizio, ora_fine, giorno, a.email 
+                    FROM lezione l, assegna a, utente u 
+                    WHERE l.id = a.id_lezione 
+                    AND u.email = a.email 
+                    AND DATE(l.giorno) >= DATE(NOW()) 
+                    ORDER BY l.id;";
         $result = $this->util->fetchAndExecute($query);
         foreach($result as $row) {
             if($row[DB_USER_EMAIL]!=$_SESSION[SESSION_EMAIL]) {
@@ -92,7 +97,11 @@ class CalendarioModel{
                     $query = "INSERT INTO assegna VALUES ('" . $email . "', '$id')";
                     $this->util->fetchAndExecute($query);
                     $diff = $this->getDiffHour(explode(" ", $start)[1], explode(" ", $end)[1]);
-                    $query = "UPDATE utente set ore_lavoro=ore_lavoro-$diff where email='" . $email . "' and ore_lavoro>0";
+                    if($this->getHours($email)-$diff > 0){
+                        $query = "UPDATE utente set ore_lavoro=ore_lavoro-$diff where email='$email'";
+                    }else{
+                        $query = "UPDATE utente set ore_lavoro=0 where email='$email'";
+                    }
                     $this->util->fetchAndExecute($query);
                     $hour = $this->getHours($email);
                     echo "1,$hour";
@@ -127,9 +136,13 @@ class CalendarioModel{
                 $timeEnd = strtotime($end);
                 $diff = $this->getDiffHour(explode(" ", $end)[1], $oldEnd[0][DB_LESSON_END]);
                 if ($timeOldEnd > $timeEnd) {
-                    $query = "UPDATE utente set ore_lavoro=ore_lavoro+$diff where email='$email' and ore_lavoro>0";
+                    $query = "UPDATE utente set ore_lavoro=ore_lavoro+$diff where email='$email'";
                 } else {
-                    $query = "UPDATE utente set ore_lavoro=ore_lavoro-$diff where email='$email' and ore_lavoro>0";
+                    if($this->getHours($email)+$diff > 0){
+                        $query = "UPDATE utente set ore_lavoro=ore_lavoro+$diff where email='$email'";
+                    }else{
+                        $query = "UPDATE utente set ore_lavoro=0 where email='$email'";
+                    }
                 }
                 $this->util->fetchAndExecute($query);
                 $hour = $this->getHours($email);
@@ -197,7 +210,7 @@ class CalendarioModel{
             $query = "DELETE from lezione WHERE id=$id";
             $this->util->fetchAndExecute($query);
             $diff = $this->getDiffHour(explode(" ", $start)[1], explode(" ", $end)[1]);
-            $query = "UPDATE utente set ore_lavoro=ore_lavoro+$diff where email='$email' and ore_lavoro>0";
+            $query = "UPDATE utente set ore_lavoro=ore_lavoro+$diff where email='$email'";
             $this->util->fetchAndExecute($query);
             $hour = $this->getHours($email);
             echo "1,$hour";
@@ -276,7 +289,7 @@ class CalendarioModel{
      * @return mixed La differenza fra le due ore.
      */
     private function getDiffHour($hourStart, $hourEnd){
-        $query = "SELECT HOUR(TIMEDIFF('$hourEnd', '$hourStart')) as 'difference'";
+        $query = "SELECT (TIME_TO_SEC(TIMEDIFF('$hourEnd', '$hourStart'))/3600) as 'difference'";
         $hours = $this->util->fetchAndExecute($query);
         return $hours[0]["difference"];;
     }
